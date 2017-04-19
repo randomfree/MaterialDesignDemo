@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/bnv_recommend"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="@string/recommend"
+        android:icon="@android:drawable/ic_dialog_info"
+        />
+    <item android:id="@+id/bnv_find"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="@string/find"
+        android:icon="@android:drawable/ic_dialog_map"
+        />
+    <item android:id="@+id/bnv_me"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="@string/my"
+        android:icon="@android:drawable/ic_dialog_alert"
+        />
+
+</menu>
