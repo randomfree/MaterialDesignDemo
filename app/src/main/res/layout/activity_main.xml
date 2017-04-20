@@ -10,17 +10,17 @@
     <RelativeLayout
         android:id="@+id/search_rlt"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="@dimen/titlebar_h"
         android:padding="8dp"
-        android:elevation="4dp"
+        android:elevation="@dimen/titlebar_e"
         android:background="@color/colorPrimary"
 
         >
 
         <ImageView
             android:id="@+id/icon_img"
-            android:layout_width="44dp"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/titlebar_icon"
+            android:layout_height="@dimen/titlebar_icon"
             android:src="@mipmap/ic_launcher"
             />
 
@@ -47,6 +47,6 @@
         app:menu="@menu/bnv_menu"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white"
-        android:elevation="8dp"
+        android:elevation="@dimen/bottombar_e"
         />
 </LinearLayout>

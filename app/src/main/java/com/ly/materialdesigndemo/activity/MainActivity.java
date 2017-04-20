@@ -1,6 +1,7 @@
 package com.ly.materialdesigndemo.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -127,6 +128,6 @@ public class MainActivity extends BaseActivity {
     }
     @OnClick(R.id.search_rlt)
     public void onViewClicked() {
-
+        startActivity(new Intent(this,SearchActivity.class));
     }
 }
