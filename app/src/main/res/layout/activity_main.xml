@@ -8,6 +8,7 @@
     tools:context="com.ly.materialdesigndemo.activity.MainActivity">
 
     <RelativeLayout
+        android:id="@+id/search_rlt"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:padding="8dp"
