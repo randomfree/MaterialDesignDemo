@@ -25,6 +25,10 @@ public class AutoNextLineLayoutManger extends RecyclerView.LayoutManager {
     //记录item是否出现过屏幕上，并且还没有回收。true表示出现过屏幕上并且没回收
     private SparseBooleanArray hasAttachedItems = new SparseBooleanArray();
 
+    public AutoNextLineLayoutManger(){
+        setAutoMeasureEnabled(true);
+    }
+
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
         return new RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -33,6 +37,7 @@ public class AutoNextLineLayoutManger extends RecyclerView.LayoutManager {
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
         super.onLayoutChildren(recycler, state);
+
         Log.e(this.getClass().getSimpleName(),"onlayoutchildren");
         //没有直接返回
         if (getItemCount()<=0) return;
@@ -88,6 +93,11 @@ public class AutoNextLineLayoutManger extends RecyclerView.LayoutManager {
         recyclerAndFillItems(recycler,state);
     }
 
+    /**
+     * 将view布局到recyclerview上
+     * @param recycler
+     * @param state
+     */
     private void recyclerAndFillItems(RecyclerView.Recycler recycler, RecyclerView.State state) {
         if (state.isPreLayout())return;
         detachAndScrapAttachedViews(recycler);
@@ -170,4 +180,6 @@ public class AutoNextLineLayoutManger extends RecyclerView.LayoutManager {
     private int getHorizontalSpace() {
         return getWidth() - getPaddingLeft() - getPaddingRight();
     }
+
+
 }
