@@ -9,11 +9,14 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ly.materialdesigndemo.BuildConfig;
 import com.ly.materialdesigndemo.R;
 import com.ly.materialdesigndemo.fragment.FindFragment;
 import com.ly.materialdesigndemo.fragment.MineFragment;
@@ -57,6 +60,14 @@ public class MainActivity extends BaseActivity {
         initFragments();
         initViewPager();
         initBottomNavitionView();
+        if (BuildConfig.DEBUG){
+            Log.e("main","debug");
+        }else{
+            Log.e("main","release");
+
+        }
+        View view;
+
 
     }
     private void initFragments(){
@@ -108,22 +119,19 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initBottomNavitionView(){
-        mainBnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.bnv_recommend:
-                        mainVp.setCurrentItem(0);
-                        break;
-                    case R.id.bnv_find:
-                        mainVp.setCurrentItem(1);
-                        break;
-                    case R.id.bnv_me:
-                        mainVp.setCurrentItem(2);
-                        break;
-                }
-                return false;
+        mainBnv.setOnNavigationItemSelectedListener((MenuItem item) ->{
+            switch (item.getItemId()){
+                case R.id.bnv_recommend:
+                    mainVp.setCurrentItem(0);
+                    break;
+                case R.id.bnv_find:
+                    mainVp.setCurrentItem(1);
+                    break;
+                case R.id.bnv_me:
+                    mainVp.setCurrentItem(2);
+                    break;
             }
+            return false;
         });
     }
     @OnClick(R.id.search_rlt)
