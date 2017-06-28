@@ -3,7 +3,6 @@ package com.ly.materialdesigndemo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -25,8 +24,8 @@ import com.ly.materialdesigndemo.fragment.RecommendFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
@@ -38,39 +37,42 @@ import butterknife.OnClick;
  */
 
 public class MainActivity extends BaseActivity {
-    @InjectView(R.id.icon_img)
+    @BindView(R.id.icon_img)
     ImageView iconImg;
-    @InjectView(R.id.search_bar)
+    @BindView(R.id.search_bar)
     TextView searchBar;
-    @InjectView(R.id.search_rlt)
+    @BindView(R.id.search_rlt)
     RelativeLayout searchRlt;
-    @InjectView(R.id.main_vp)
+    @BindView(R.id.main_vp)
     ViewPager mainVp;
-    @InjectView(R.id.main_bnv)
+    @BindView(R.id.main_bnv)
     BottomNavigationView mainBnv;
 
     private List<Fragment> fragments = new ArrayList<>();
 
     private MenuItem prevMenuItem;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
+
         initFragments();
         initViewPager();
         initBottomNavitionView();
-        if (BuildConfig.DEBUG){
-            Log.e("main","debug");
-        }else{
-            Log.e("main","release");
+        if (BuildConfig.DEBUG) {
+            Log.e("main", "debug");
+        } else {
+            Log.e("main", "release");
 
         }
         View view;
 
 
     }
-    private void initFragments(){
+
+    private void initFragments() {
         RecommendFragment recommendFragment = new RecommendFragment();
         FindFragment findFragment = new FindFragment();
         MineFragment mineFragment = new MineFragment();
@@ -80,7 +82,8 @@ public class MainActivity extends BaseActivity {
 
 
     }
-    private void initViewPager(){
+
+    private void initViewPager() {
         mainVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -89,9 +92,9 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (prevMenuItem!=null){
+                if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
-                }else{
+                } else {
                     mainBnv.getMenu().getItem(0).setChecked(false);
                 }
                 mainBnv.getMenu().getItem(position).setChecked(true);
@@ -106,7 +109,7 @@ public class MainActivity extends BaseActivity {
         //fragmentpageradapter会保留状态，fragmentstatepageradapter会立即销毁
         FragmentPagerAdapter fpa = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public android.support.v4.app.Fragment getItem(int position) {
+            public Fragment getItem(int position) {
                 return fragments.get(position);
             }
 
@@ -118,9 +121,9 @@ public class MainActivity extends BaseActivity {
         mainVp.setAdapter(fpa);
     }
 
-    private void initBottomNavitionView(){
-        mainBnv.setOnNavigationItemSelectedListener((MenuItem item) ->{
-            switch (item.getItemId()){
+    private void initBottomNavitionView() {
+        mainBnv.setOnNavigationItemSelectedListener((MenuItem item) -> {
+            switch (item.getItemId()) {
                 case R.id.bnv_recommend:
                     mainVp.setCurrentItem(0);
                     break;
@@ -134,8 +137,8 @@ public class MainActivity extends BaseActivity {
             return false;
         });
     }
-    @OnClick(R.id.search_rlt)
-    public void onViewClicked() {
-        startActivity(new Intent(this,SearchActivity.class));
+
+    @OnClick(R.id.search_rlt) void onViewClicked() {
+        startActivity(new Intent(this, SearchActivity.class));
     }
 }
