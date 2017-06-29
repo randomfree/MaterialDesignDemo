@@ -8,7 +8,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -16,12 +16,72 @@ android {
         }
     }
 
-    buildTypes {
+    //这货必须在buildTypes上面不然他找不到我了个擦
+    //todo 了解为什么放到gradle.properties里 放这里不安全
+    signingConfigs {
+
         release {
+            storeFile file("${keystorePath}")
+            keyAlias "${keystoreAlias}"
+            keyPassword "${keystorePassword}"
+            storePassword "${keystorePassword}"
+        }
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField("boolean", "LOG_DEBUG", "true")
+            signingConfig signingConfigs.release
+        }
+        release {
+            buildConfigField("boolean", "LOG_DEBUG", "false")
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        //自定义构建版本名字
+        custom.initWith(buildTypes.debug)//可以继承而且顺序并么有错
+        custom {
+            signingConfig signingConfigs.release
+            applicationIdSuffix ".custom" //最终的效果是上面defaultConfig里的applicationId后面加上这个
+            versionNameSuffix "-custom" //同样是拼接默认的
+        }
     }
+
+    //productFlavors 和 buildTypes的区别
+    //product flavors用来为一个app创建不同版本。典型的例子是，一个app有付费和免费版。
+    //product flavors极大简化了基于相同的代码构建不同版本的app。
+//    如果你不确定你是否需要一个新的构建版本或者product flavors，你应该问你自己，
+//    你是否需要内部使用和外部使用的apk。如果你需要一个完全新的app去发布，和之前的版本完全隔离开，
+//    那么你需要product flavors。否则你只是需要构建版本。
+    flavorDimensions "color", "price"
+    //使用productFlavors必须使用flavorDimensions，并为每个都添加dimension
+    //这样写构建出了redfree,redpaid,bluefree,bluepaid后面分别加上buildType3个版本一共出现了12个变体
+    //变体可以有自己的资源文件夹比如 src/redfreeDebug/java/这种
+    //当不同版本之间有重合资源需要合并时优先级是：buildtype>flavor>main>dependencies(依赖)
+    productFlavors {
+        red {
+            dimension "color"
+            applicationId = 'com.ly.MaterialDesignDemo.red'
+            resValue "color","flavor_color","#ff0000"
+        }
+        blue {
+            dimension "color"
+            applicationId = 'com.ly.MaterialDesignDemo.blue'
+            resValue "color","flavor_color","#0000ff"
+        }
+        free {
+            dimension "price"
+            resValue "color","flavor_color","#00ff00"
+        }
+        paid {
+            dimension "price"
+            resValue "color","flavor_color","#00ff00"
+        }
+    }
+
+
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -31,9 +91,20 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.google.code.gson:gson:2.2.4'
+    //可以在gradle.properties里创建变量 从google的simple里学来的
+    compile "com.android.support:appcompat-v7:${android_support_lib_version}"
+    //compile 始终添加依赖
+    //apk 意思是apk中存在，但是不会加入编译中，这个貌似用的比较少。
+    //provided的意思是提供编译支持，但是不会写入apk。
+    //testCompile和androidTestCompile会添加额外的library支持针对测试。
+    compile "com.android.support:design:${android_support_lib_version}"
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    //可以buildTypes来添加不同的依赖
+    debugCompile 'com.google.code.gson:gson:2.2.4'
+    //:号前面的依赖包的GROUP是library的组织名多数情况是包名，两个:中间那是name最后面是版本，
+    //以这个为例他完整版应该写作 debugCompile group:'com.google.code.gson',name:'gson',version:'2.2.4'
+    releaseCompile 'com.google.code.gson:gson:2.2.4'
+    //包括自定义的都可以
+    customCompile "com.google.code.gson:gson:2.2.4"
 }

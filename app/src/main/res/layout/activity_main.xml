@@ -7,6 +7,8 @@
     android:orientation="vertical"
     tools:context="com.ly.materialdesigndemo.activity.MainActivity">
 
+
+
     <RelativeLayout
         android:id="@+id/search_rlt"
         android:layout_width="match_parent"
@@ -14,7 +16,6 @@
         android:padding="8dp"
         android:elevation="@dimen/titlebar_e"
         android:background="@color/colorPrimary"
-
         >
 
         <ImageView
